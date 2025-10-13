@@ -17,9 +17,26 @@ import {
   faEyeSlash,
   faBars,
   faTimes,
+  faCircleUser,
+  faUserTie,
+  faCashRegister,
+  faBox,
+  faPizzaSlice,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUser, faChartBar, faEye, faEyeSlash, faBars, faTimes);
+library.add(
+  faUser,
+  faChartBar,
+  faEye,
+  faEyeSlash,
+  faBars,
+  faTimes,
+  faCircleUser,
+  faUserTie,
+  faCashRegister,
+  faBox,
+  faPizzaSlice
+);
 
 const app = createApp(App);
 

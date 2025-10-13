@@ -8,6 +8,18 @@ const routes = [
     name: "registro",
     component: () => import("../modules/login/views/registroUsuario.vue"),
   },
+  {
+    path: "/admin",
+    name: "admin",
+    component: () => import("../layouts/layoutAdmin.vue"),
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        component: () => import("../components/home.vue"),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

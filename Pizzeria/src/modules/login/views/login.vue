@@ -7,7 +7,10 @@
         <FontAwesomeIcon :icon="['fas', 'user']" class="text-white text-3xl" />
       </div>
 
-      <form class="bg-white pt-14 pb-6 px-6 rounded-lg shadow-md">
+      <form
+        @submit.prevent="submit"
+        class="bg-white pt-14 pb-6 px-6 rounded-lg shadow-md"
+      >
         <h1 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h1>
 
         <div class="mb-4">
@@ -39,6 +42,7 @@
         </div>
 
         <button
+          @click="submit"
           type="submit"
           class="w-full bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition-colors duration-300"
         >
@@ -56,6 +60,6 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useLoginStore } from "../../login/store/login";
 
-const { mostrarContraseña } = useLoginStore();
+const { mostrarContraseña, submit } = useLoginStore();
 const { verContraseña, credenciales } = storeToRefs(useLoginStore());
 </script>

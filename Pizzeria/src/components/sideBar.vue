@@ -78,15 +78,6 @@
         </ul>
       </div>
     </aside>
-
-    <main
-      :class="[
-        'flex-1 transition-all duration-300 p-6 bg-gray-100 min-h-screen',
-        collapsed ? 'ml-16' : 'ml-64',
-      ]"
-    >
-      <router-view />
-    </main>
   </div>
 </template>
 
@@ -99,28 +90,30 @@ const router = useRouter();
 
 const collapsed = ref(false);
 
-const mostrarSideBar = () => {
-  collapsed.value = !collapsed.value;
-};
-
 const openMenu = ref(null);
 
 function mostrarMenu(menu) {
   openMenu.value = openMenu.value === menu ? null : menu;
 }
+const emit = defineEmits(["update:collapsed"]);
+
+const mostrarSideBar = () => {
+  collapsed.value = !collapsed.value;
+  emit("update:collapsed", collapsed.value);
+};
 
 const menus = [
   {
     nombre: "Administrador",
     icon: "user-tie",
     vistas: [
-      { nombre: "Almacen", path: "" },
+      { nombre: "Almacen", path: "/almacen" },
       { nombre: "Pizzas", path: "" },
       { nombre: "Reporte Productos", path: "" },
       { nombre: "Dashboard Ventas", path: "" },
       { nombre: "Dashboard Ventas X Pizza", path: "" },
       { nombre: "Dashboard Pizzas", path: "" },
-      { nombre: "Empleados", path: "" },
+      { nombre: "Empleados", path: "/empleados" },
     ],
   },
   {

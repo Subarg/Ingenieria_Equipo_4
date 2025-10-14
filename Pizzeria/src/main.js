@@ -22,6 +22,9 @@ import {
   faCashRegister,
   faBox,
   faPizzaSlice,
+  faPencil,
+  faTrashCan,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -35,7 +38,10 @@ library.add(
   faUserTie,
   faCashRegister,
   faBox,
-  faPizzaSlice
+  faPizzaSlice,
+  faPencil,
+  faTrashCan,
+  faPlus
 );
 
 const app = createApp(App);

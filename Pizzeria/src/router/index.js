@@ -18,6 +18,17 @@ const routes = [
         name: "home",
         component: () => import("../components/home.vue"),
       },
+      {
+        path: "/almacen",
+        name: "almacen",
+        component: () => import("../modules/almacen/views/almacen.vue"),
+      },
+      {
+        path: "/empleados",
+        name: "empleados",
+        component: () =>
+          import("../modules/admin/empleados/views/empleados.vue"),
+      },
     ],
   },
 ];

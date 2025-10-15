@@ -29,6 +29,11 @@ const routes = [
         component: () =>
           import("../modules/admin/empleados/views/empleados.vue"),
       },
+      {
+        path: "/pizzas",
+        name: "pizzas",
+        component: () => import("../modules/admin/menu/views/pizzas.vue"),
+      },
     ],
   },
 ];

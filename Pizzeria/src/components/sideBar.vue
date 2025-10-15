@@ -108,7 +108,7 @@ const menus = [
     icon: "user-tie",
     vistas: [
       { nombre: "Almacen", path: "/almacen" },
-      { nombre: "Pizzas", path: "" },
+      { nombre: "Pizzas", path: "/pizzas" },
       { nombre: "Reporte Productos", path: "" },
       { nombre: "Dashboard Ventas", path: "" },
       { nombre: "Dashboard Ventas X Pizza", path: "" },

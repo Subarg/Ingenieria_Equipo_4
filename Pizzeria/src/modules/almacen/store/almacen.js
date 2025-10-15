@@ -35,8 +35,6 @@ export const useAlmacenStore = defineStore("almacenStore", () => {
       };
     }
     mostrarModal.value = true;
-
-    console.log(producto.value);
   }
 
   function eliminar(item) {

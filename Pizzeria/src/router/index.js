@@ -34,6 +34,16 @@ const routes = [
         name: "pizzas",
         component: () => import("../modules/admin/menu/views/pizzas.vue"),
       },
+      {
+        path: "/pos",
+        name: "pos",
+        component: () => import("../modules/Caja/view/punto_de_venta.vue"),
+      },
+      {
+        path: "/corte-caja",
+        name: "corte-caja",
+        component: () => import("../modules/Caja/view/corte_de_caja.vue"),
+      },
     ],
   },
 ];

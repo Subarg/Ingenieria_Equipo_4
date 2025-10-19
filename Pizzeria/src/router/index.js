@@ -61,6 +61,7 @@ const routes = [
         name: "reporte-compras",
         component: () => import("../modules/admin/Reporte_Pro/views/reporte_de_productos.vue"),
       },
+      {
     ],
   },
 ];

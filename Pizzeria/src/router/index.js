@@ -66,6 +66,11 @@ const routes = [
         name: "lista-pedidos",
         component: () => import("../modules/pedidos/views/lista_pedidos.vue"),
       },
+      {
+        path: "/venta",
+        name: "venta",
+        component: () => import("../modules/cajero/views/realizarVenta.vue"),
+      },
     ],
   },
 ];

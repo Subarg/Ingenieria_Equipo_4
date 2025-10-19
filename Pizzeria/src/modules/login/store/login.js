@@ -1,8 +1,5 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { inject } from "vue";
-import axios from "axios";
-import router from "../../../Router";
 export const useLoginStore = defineStore("login", () => {
   const verContraseña = ref(false);
   const credenciales = ref({

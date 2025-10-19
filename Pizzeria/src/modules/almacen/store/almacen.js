@@ -1,8 +1,5 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import { inject } from "vue";
-import axios from "axios";
-import router from "../../../Router";
 import Swal from "sweetalert2";
 
 export const useAlmacenStore = defineStore("almacenStore", () => {

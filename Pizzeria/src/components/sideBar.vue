@@ -106,6 +106,7 @@ const menus = [
   {
     nombre: "Administrador",
     icon: "user-tie",
+    rol: "admin",
     vistas: [
       { nombre: "Almacen", path: "/almacen" },
       { nombre: "Pizzas", path: "/pizzas" },
@@ -119,16 +120,19 @@ const menus = [
   {
     nombre: "Caja",
     icon: "cash-register",
-    vistas: [{ nombre: "Punto de venta", path: "" }],
+    rol: "cajero",
+    vistas: [{ nombre: "Punto de venta", path: "/pos" }],
   },
   {
     nombre: "Almacen",
     icon: "box",
+    rol: "admin",
     vistas: [{ nombre: "Insumos", path: "" }],
   },
   {
     nombre: "Pedidos",
     icon: "pizza-slice",
+    rol: "chef",
     vistas: [
       { nombre: "Lista de Pedidos", path: "" },
       { nombre: "Pedidos Siguientes", path: "" },

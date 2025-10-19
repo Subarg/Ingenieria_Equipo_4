@@ -13,33 +13,33 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
       costo: 120,
       estado: 1,
       receta: [
-        { insumo: "", cantidad: 1 },
-        { insumo: "Llll", cantidad: 2 },
+        { id_insumo: 0, insumo: "", cantidad: 1 },
+        { id_insumo: 0, insumo: "Llll", cantidad: 2 },
       ],
     },
     {
       nombre: "Pizza Pepperoni",
       costo: 110,
       estado: 1,
-      receta: [{ insumo: "", cantidad: 2 }],
+      receta: [{ id_insumo: 0, insumo: "", cantidad: 2 }],
     },
     {
       nombre: "Pizza Mexicana",
       costo: 130,
       estado: 0,
-      receta: [{ insumo: "", cantidad: 3 }],
+      receta: [{ id_insumo: 0, insumo: "", cantidad: 3 }],
     },
     {
       nombre: "Pizza Vegetariana",
       costo: 115,
       estado: 1,
-      receta: [{ insumo: "", cantidad: 4 }],
+      receta: [{ id_insumo: 0, insumo: "", cantidad: 4 }],
     },
     {
       nombre: "Pizza 4 Quesos",
       costo: 140,
       estado: 1,
-      receta: [{ insumo: "", cantidad: 5 }],
+      receta: [{ id_insumo: 0, insumo: "", cantidad: 5 }],
     },
   ]);
 
@@ -47,7 +47,7 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     nombre: "",
     costo: 0,
     estado: 1,
-    receta: [{ insumo: "", cantidad: 0 }],
+    receta: [{ id_insumo: 0, insumo: "", cantidad: 0 }],
   });
   const mostrarModal = ref(false);
   const mostrarModalReceta = ref(false);
@@ -116,12 +116,12 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
       nombre: "",
       costo: 0,
       estado: 0,
-      receta: [{ insumo: "", cantidad: 0 }],
+      receta: [{ id_insumo: 0, insumo: "", cantidad: 0 }],
     };
   }
 
   function agregarInsumo() {
-    pizza.value.receta.push({ insumo: "", cantidad: 0 });
+    pizza.value.receta.push({ id_insumo: 0, insumo: "", cantidad: 0 });
   }
 
   function eliminarInsumo(indexLinea) {

@@ -56,6 +56,11 @@ const routes = [
         name: "corte-caja",
         component: () => import("../modules/cajero/views/corte_de_caja.vue"),
       },
+      {
+        path: "/venta",
+        name: "venta",
+        component: () => import("../modules/cajero/views/realizarVenta.vue"),
+      },
     ],
   },
 ];

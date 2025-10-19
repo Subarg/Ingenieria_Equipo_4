@@ -38,11 +38,13 @@ const routes = [
         path: "/pos",
         name: "pos",
         component: () => import("../modules/Caja/view/punto_de_venta.vue"),
+        component: () => import("../modules/Caja/views/punto_de_venta.vue"),
       },
       {
         path: "/corte-caja",
         name: "corte-caja",
         component: () => import("../modules/Caja/view/corte_de_caja.vue"),
+        component: () => import("../modules/Caja/views/corte_de_caja.vue"),
       },
     ],
   },

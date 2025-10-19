@@ -34,15 +34,27 @@ const routes = [
         name: "pizzas",
         component: () => import("../modules/admin/menu/views/pizzas.vue"),
       },
+    ],
+  },
+  {
+    path: "/cajero",
+    name: "cajero",
+    component: () => import("../layouts/layoutAdmin.vue"),
+    children: [
       {
         path: "/pos",
         name: "pos",
-        component: () => import("../modules/Caja/view/punto_de_venta.vue"),
+        component: () => import("../modules/cajero/views/pos.vue"),
+      },
+      {
+        path: "/punto-venta",
+        name: "punto_venta",
+        component: () => import("../modules/cajero/views/punto_de_venta.vue"),
       },
       {
         path: "/corte-caja",
         name: "corte-caja",
-        component: () => import("../modules/Caja/view/corte_de_caja.vue"),
+        component: () => import("../modules/cajero/views/corte_de_caja.vue"),
       },
       {
         path: "/reporte-compras",

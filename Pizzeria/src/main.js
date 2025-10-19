@@ -28,6 +28,10 @@ import {
   faXmark,
   faCheck,
   faFileLines,
+  faCalendarCheck,
+  faCartShopping,
+  faMoneyCheckDollar,
+  faBottleWater,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -47,7 +51,11 @@ library.add(
   faPlus,
   faXmark,
   faCheck,
-  faFileLines
+  faFileLines,
+  faCalendarCheck,
+  faCartShopping,
+  faMoneyCheckDollar,
+  faBottleWater
 );
 
 const app = createApp(App);

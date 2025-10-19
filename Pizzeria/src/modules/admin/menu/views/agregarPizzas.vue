@@ -5,7 +5,7 @@
   >
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">
-        Registrar Empleado
+        Registrar Pizza
       </h2>
 
       <form @submit.prevent="guardarPizza" class="space-y-4">

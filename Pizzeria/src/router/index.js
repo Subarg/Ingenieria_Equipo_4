@@ -63,6 +63,9 @@ const routes = [
       },
       {
         path: "/lista-pedidos",
+        name: "lista-pedidos",
+        component: () => import("../modules/pedidos/views/lista_pedidos.vue"),
+      },
     ],
   },
 ];

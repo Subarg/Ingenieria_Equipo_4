@@ -62,6 +62,7 @@ const routes = [
         component: () => import("../modules/admin/Reporte_Pro/views/reporte_de_productos.vue"),
       },
       {
+        path: "/lista-pedidos",
     ],
   },
 ];

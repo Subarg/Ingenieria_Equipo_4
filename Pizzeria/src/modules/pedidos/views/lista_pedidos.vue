@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-900 min-h-screen p-8 text-white">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold">Lista de Pedidos en Tiempo Real</h1>
+      <h1 class="text-4xl font-bold">Pedidos en Tiempo Real</h1>
     </header>
 
     <main class="grid grid-cols-1 md:grid-cols-3 gap-8">

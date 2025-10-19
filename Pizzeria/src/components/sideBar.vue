@@ -153,7 +153,6 @@ const menus = [
     icon: "pizza-slice",
     rol: "chef",
     vistas: [
-      { nombre: "Lista de Pedidos", path: "" },
       { nombre: "Pedidos Siguientes", path: "" },
     ],
   },

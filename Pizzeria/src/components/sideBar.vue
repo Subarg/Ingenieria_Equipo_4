@@ -129,7 +129,7 @@ const menus = [
     vistas: [
       { nombre: "Almacen", path: "/almacen" },
       { nombre: "Pizzas", path: "/pizzas" },
-      { nombre: "Reporte Productos", path: "" },
+      { nombre: "Reporte Productos", path: "/reporte-compras" },
       { nombre: "Dashboard Ventas", path: "" },
       { nombre: "Dashboard Ventas X Pizza", path: "" },
       { nombre: "Dashboard Pizzas", path: "" },
@@ -153,7 +153,7 @@ const menus = [
     icon: "pizza-slice",
     rol: "chef",
     vistas: [
-      { nombre: "Pedidos Siguientes", path: "" },
+      { nombre: "Pedidos Siguientes", path: "/pedidos" },
     ],
   },
 ];

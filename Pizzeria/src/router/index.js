@@ -62,9 +62,9 @@ const routes = [
         component: () => import("../modules/admin/Reporte_Pro/views/reporte_de_productos.vue"),
       },
       {
-        path: "/lista-pedidos",
-        name: "lista-pedidos",
-        component: () => import("../modules/pedidos/views/lista_pedidos.vue"),
+        path: "/pedidos",
+        name: "pedidos",
+        component: () => import("../modules/pedidos/views/pedidos_sig.vue"),
       },
       {
         path: "/venta",

@@ -32,6 +32,8 @@ import {
   faCartShopping,
   faMoneyCheckDollar,
   faBottleWater,
+  faCaretLeft,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -55,7 +57,9 @@ library.add(
   faCalendarCheck,
   faCartShopping,
   faMoneyCheckDollar,
-  faBottleWater
+  faBottleWater,
+  faCaretLeft,
+  faCaretDown
 );
 
 const app = createApp(App);

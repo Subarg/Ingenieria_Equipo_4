@@ -1,6 +1,13 @@
 <template>
   <div class="flex h-screen bg-gray-900 text-white font-sans">
     <div class="w-2/3 p-6">
+      <button
+        @click="volver"
+        class="mb-4 flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+      >
+        <FontAwesomeIcon :icon="['fas', 'caret-left']" style="color: white" />
+        Volver
+      </button>
       <h1 class="text-3xl font-bold mb-6">Punto de Venta</h1>
 
       <div class="flex space-x-4 mb-6 border-b border-gray-700">
@@ -118,6 +125,7 @@
         </div>
         <button
           class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg"
+          @click="realizarVenta"
         >
           REALIZAR VENTA
         </button>
@@ -134,9 +142,9 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-// --- LÍNEA CORREGIDA ---
 import { usePuntoDeVentaStore } from "../store/punto_venta.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import router from "../../../Router/index.js";
 // 1. Instanciamos el store
 const posStore = usePuntoDeVentaStore();
 
@@ -144,6 +152,10 @@ const posStore = usePuntoDeVentaStore();
 // Usamos storeToRefs para mantener la reactividad.
 const { menu, ordenActual, categoriaActiva, totalOrden } =
   storeToRefs(posStore);
+const { realizarVenta } = posStore;
+function volver() {
+  router.push({ name: "pos" });
+}
 
 // ¡Y eso es todo! La lógica ahora vive en el store.
 // Las funciones se llaman directamente desde la instancia: posStore.agregarAOrden(...)

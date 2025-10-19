@@ -4,7 +4,6 @@ import { ref, computed } from 'vue';
 export const usePedidosStore = defineStore('pedidos', () => {
 
     // --- STATE (Datos) ---
-    // En una aplicación real, esta lista vendría de la base de datos en tiempo real.
     const pedidos = ref([
         { id: 101, cliente: 'Angel Ramirez', estado: 'Nuevo', items: ['1x Pizza Hawaiana', '2x Refresco'] },
         { id: 102, cliente: 'Maria Lopez', estado: 'Nuevo', items: ['1x Pizza Pepperoni', '1x Pizza Mexicana'] },

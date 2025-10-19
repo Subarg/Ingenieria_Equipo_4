@@ -36,24 +36,43 @@
         </h2>
 
         <ul class="w-full" v-if="!collapsed">
-          <li class="mb-2 w-full text-lg" v-for="menu in menus">
+          <li
+            class="mb-2 w-full text-lg"
+            v-for="menu in menus"
+            :key="menu.nombre"
+          >
             <button
               @click="mostrarMenu(menu.nombre)"
-              class="flex items-center gap-2"
+              class="flex items-center justify-between w-full gap-2"
             >
-              <i>
-                <FontAwesomeIcon
-                  :icon="['fas', menu.icon]"
-                  style="color: white"
-                  class="text-xl"
-                />
-              </i>
-              {{ menu.nombre }}
+              <div class="flex items-center gap-2">
+                <i>
+                  <FontAwesomeIcon
+                    :icon="['fas', menu.icon]"
+                    style="color: white"
+                    class="text-xl"
+                  />
+                </i>
+                {{ menu.nombre }}
+              </div>
+
+              <FontAwesomeIcon
+                v-if="openMenu === menu.nombre"
+                :icon="['fas', 'caret-down']"
+                style="color: white"
+              />
+              <FontAwesomeIcon
+                v-else
+                :icon="['fas', 'caret-left']"
+                style="color: white"
+              />
             </button>
+
             <div v-if="openMenu === menu.nombre" class="ml-6 mt-1">
               <ul>
                 <li
                   v-for="vista in menu.vistas"
+                  :key="vista.nombre"
                   class="px-2 py-1 rounded hover:bg-blue-500 cursor-pointer text-base"
                 >
                   <router-link :to="vista.path">

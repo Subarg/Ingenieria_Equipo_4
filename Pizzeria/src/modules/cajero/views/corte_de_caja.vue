@@ -3,6 +3,14 @@
     <div
       class="w-full max-w-2xl bg-gray-800 p-8 rounded-2xl shadow-lg text-white"
     >
+      <button
+        @click="volver"
+        class="mb-4 flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+      >
+        <FontAwesomeIcon :icon="['fas', 'caret-left']" style="color: white" />
+        Volver
+      </button>
+
       <h1 class="text-3xl font-bold text-center mb-8">Corte de Caja</h1>
 
       <div v-if="!corteRealizado">
@@ -120,16 +128,21 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { storeToRefs } from "pinia";
 import { useCorteCajaStore } from "../store/corte_caja.js";
 import { onMounted, ref } from "vue";
-
+import router from "../../../Router/index.js";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const corteStore = useCorteCajaStore();
 const fecha = ref("");
+
 onMounted(() => {
-  fecha.value = new Date().toLocaleDateString("es-Es");
+  const hoy = new Date();
+  const year = hoy.getFullYear();
+  const month = String(hoy.getMonth() + 1).padStart(2, "0");
+  const day = String(hoy.getDate()).padStart(2, "0");
+  fecha.value = `${year}-${month}-${day}`;
   console.log(fecha.value);
 });
 
@@ -143,4 +156,8 @@ const {
   dineroEsperadoEnCaja,
   diferencia,
 } = storeToRefs(corteStore);
+
+function volver() {
+  router.push({ name: "pos" });
+}
 </script>

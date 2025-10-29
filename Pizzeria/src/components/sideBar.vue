@@ -131,7 +131,7 @@ const menus = [
       { nombre: "Pizzas", path: "/pizzas" },
       { nombre: "Reporte Productos", path: "/reporte-compras" },
       { nombre: "Dashboard Ventas", path: "" },
-      { nombre: "Dashboard Ventas X Pizza", path: "" },
+      { nombre: "Dashboard Ventas X Pizza", path: "/dashboard-ventas" },
       { nombre: "Dashboard Pizzas", path: "" },
       { nombre: "Empleados", path: "/empleados" },
     ],

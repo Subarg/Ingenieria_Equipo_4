@@ -71,6 +71,11 @@ const routes = [
         name: "venta",
         component: () => import("../modules/cajero/views/realizarVenta.vue"),
       },
+      {
+        path: "/dashboard-ventas",
+        name: "dashboard-ventas",
+        component: () => import("../modules/admin/dashboard/views/vista_de_ventas.vue"),
+      },
     ],
   },
 ];

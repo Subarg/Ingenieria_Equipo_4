@@ -43,9 +43,13 @@
               v-model="insumo.insumo"
             >
               <option value="">-- Selecciona un producto --</option>
-              <option value="queso">Queso</option>
-              <option value="harina">Harina</option>
-              <option value="salsa">Salsa</option>
+              <option
+                v-for="item in insumos"
+                :key="item.id"
+                :value="item.nombre"
+              >
+                {{ item.nombre }} ({{ item.unidad_de_medida }})
+              </option>
             </select>
 
             <input
@@ -107,7 +111,7 @@
 import { storeToRefs } from "pinia";
 import { usePizzasStore } from "../store/pizzas";
 
-const { pizza, mostrarModal } = storeToRefs(usePizzasStore());
+const { pizza, mostrarModal, insumos } = storeToRefs(usePizzasStore());
 const { cerrarModal, guardarPizza, agregarInsumo, eliminarInsumo } =
   usePizzasStore();
 </script>

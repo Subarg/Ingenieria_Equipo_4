@@ -23,7 +23,9 @@
               class="border-b hover:bg-gray-50"
             >
               <td class="px-6 py-3 text-center">{{ insumo.insumo }}</td>
-              <td class="px-6 py-3 text-center">{{ insumo.cantidad }}</td>
+              <td class="px-6 py-3 text-center">
+                {{ insumo.cantidad + " " + insumo.unidad_de_medida }}
+              </td>
             </tr>
             <tr v-if="pizza.receta.length === 0">
               <td colspan="2" class="text-center py-4 text-gray-500">

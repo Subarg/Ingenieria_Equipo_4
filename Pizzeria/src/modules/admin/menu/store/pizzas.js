@@ -6,42 +6,8 @@ import Swal from "sweetalert2";
 
 export const usePizzasStore = defineStore("pizzasStore", () => {
   const busqueda = ref("");
-
-  const pizzas = ref([
-    {
-      nombre: "Pizza Hawaiana",
-      costo: 120,
-      estado: 1,
-      receta: [
-        { id_insumo: 0, insumo: "", cantidad: 1 },
-        { id_insumo: 0, insumo: "Llll", cantidad: 2 },
-      ],
-    },
-    {
-      nombre: "Pizza Pepperoni",
-      costo: 110,
-      estado: 1,
-      receta: [{ id_insumo: 0, insumo: "", cantidad: 2 }],
-    },
-    {
-      nombre: "Pizza Mexicana",
-      costo: 130,
-      estado: 0,
-      receta: [{ id_insumo: 0, insumo: "", cantidad: 3 }],
-    },
-    {
-      nombre: "Pizza Vegetariana",
-      costo: 115,
-      estado: 1,
-      receta: [{ id_insumo: 0, insumo: "", cantidad: 4 }],
-    },
-    {
-      nombre: "Pizza 4 Quesos",
-      costo: 140,
-      estado: 1,
-      receta: [{ id_insumo: 0, insumo: "", cantidad: 5 }],
-    },
-  ]);
+  const insumos = ref([]);
+  const pizzas = ref([]);
 
   const pizza = ref({
     nombre: "",
@@ -57,6 +23,14 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     )
   );
 
+  const getPizzas = async () => {
+    try {
+      const response = await axios.get("/get-pizzas");
+      pizzas.value = response.data.pizzas;
+    } catch (error) {
+      console.error("Error al obtener las pizzas:", error);
+    }
+  };
   function editar(item) {
     asignarPizza(item);
     mostrarModal.value = true;
@@ -65,15 +39,26 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     if (item != null) {
       pizza.value = {
         nombre: item.nombre,
-        costo: item.costo,
+        costo: item.precio,
         estado: item.estado,
         receta: item.receta.map((i) => ({
-          insumo: i.insumo,
+          insumo: i.nombre,
           cantidad: i.cantidad,
+          unidad_de_medida: i.unidad_de_medida,
         })),
       };
+      console.log(pizza.value);
     }
   }
+  const getInsumos = async () => {
+    try {
+      const response = await axios.get("/get-insumos");
+      insumos.value = response.data.insumos;
+    } catch (error) {
+      console.error("Error al obtener los insumos:", error);
+      return [];
+    }
+  };
   function eliminar(item) {
     Swal.fire({
       icon: "warning",
@@ -132,6 +117,8 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     asignarPizza(item);
     mostrarModalReceta.value = true;
   }
+  getPizzas();
+  getInsumos();
   return {
     pizza,
     pizzas,
@@ -146,5 +133,7 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     eliminarInsumo,
     mostrarModalReceta,
     verModalReceta,
+    getPizzas,
+    insumos,
   };
 });

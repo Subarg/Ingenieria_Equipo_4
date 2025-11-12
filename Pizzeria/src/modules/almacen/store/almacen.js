@@ -48,7 +48,6 @@ export const useAlmacenStore = defineStore("almacenStore", () => {
   }
 
   async function guardarProducto() {
-    console.log("entro");
     comprobarProducto();
   }
 

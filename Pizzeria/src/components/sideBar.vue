@@ -41,33 +41,34 @@
             v-for="menu in menus"
             :key="menu.nombre"
           >
-            <button
-              @click="mostrarMenu(menu.nombre)"
-              class="flex items-center justify-between w-full gap-2"
-            >
-              <div class="flex items-center gap-2">
-                <i>
-                  <FontAwesomeIcon
-                    :icon="['fas', menu.icon]"
-                    style="color: white"
-                    class="text-xl"
-                  />
-                </i>
-                {{ menu.nombre }}
-              </div>
+            <div v-if="rol == 1 || rol == menu.rol_id">
+              <button
+                @click="mostrarMenu(menu.nombre)"
+                class="flex items-center justify-between w-full gap-2"
+              >
+                <div class="flex items-center gap-2">
+                  <i>
+                    <FontAwesomeIcon
+                      :icon="['fas', menu.icon]"
+                      style="color: white"
+                      class="text-xl"
+                    />
+                  </i>
+                  {{ menu.nombre }}
+                </div>
 
-              <FontAwesomeIcon
-                v-if="openMenu === menu.nombre"
-                :icon="['fas', 'caret-down']"
-                style="color: white"
-              />
-              <FontAwesomeIcon
-                v-else
-                :icon="['fas', 'caret-left']"
-                style="color: white"
-              />
-            </button>
-
+                <FontAwesomeIcon
+                  v-if="openMenu === menu.nombre"
+                  :icon="['fas', 'caret-down']"
+                  style="color: white"
+                />
+                <FontAwesomeIcon
+                  v-else
+                  :icon="['fas', 'caret-left']"
+                  style="color: white"
+                />
+              </button>
+            </div>
             <div v-if="openMenu === menu.nombre" class="ml-6 mt-1">
               <ul>
                 <li
@@ -86,13 +87,15 @@
 
         <ul v-else>
           <li class="mb-3 w-full" v-for="menu in menus">
-            <i>
-              <FontAwesomeIcon
-                :icon="['fas', menu.icon]"
-                style="color: white"
-                class="text-2xl"
-              />
-            </i>
+            <div v-if="rol == 1 || rol == menu.rol_id">
+              <i>
+                <FontAwesomeIcon
+                  :icon="['fas', menu.icon]"
+                  style="color: white"
+                  class="text-2xl"
+                />
+              </i>
+            </div>
           </li>
         </ul>
       </div>
@@ -102,15 +105,18 @@
 
 <script setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-
+import { useLoginStore } from "../modules/login/store/login";
+import { storeToRefs } from "pinia";
 const router = useRouter();
-
+const { usuario, rol } = storeToRefs(useLoginStore());
 const collapsed = ref(false);
 
 const openMenu = ref(null);
-
+onMounted(() => {
+  rol.value = localStorage.getItem("rol_id");
+});
 function mostrarMenu(menu) {
   openMenu.value = openMenu.value === menu ? null : menu;
 }
@@ -126,6 +132,7 @@ const menus = [
     nombre: "Administrador",
     icon: "user-tie",
     rol: "admin",
+    rol_id: 1,
     vistas: [
       { nombre: "Almacen", path: "/almacen" },
       { nombre: "Pizzas", path: "/pizzas" },
@@ -140,21 +147,22 @@ const menus = [
     nombre: "Caja",
     icon: "cash-register",
     rol: "cajero",
+    rol_id: 2,
     vistas: [{ nombre: "Punto de venta", path: "/pos" }],
-  },
-  {
-    nombre: "Almacen",
-    icon: "box",
-    rol: "admin",
-    vistas: [{ nombre: "Insumos", path: "" }],
   },
   {
     nombre: "Pedidos",
     icon: "pizza-slice",
     rol: "chef",
-    vistas: [
-      { nombre: "Pedidos Siguientes", path: "/pedidos" },
-    ],
+    rol_id: 3,
+    vistas: [{ nombre: "Pedidos Siguientes", path: "/pedidos" }],
+  },
+  {
+    nombre: "Almacen",
+    icon: "box",
+    rol: "almacenista",
+    rol_id: 4,
+    vistas: [{ nombre: "Insumos", path: "" }],
   },
 ];
 </script>

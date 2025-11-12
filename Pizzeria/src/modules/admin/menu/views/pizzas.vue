@@ -36,7 +36,7 @@
             class="border-b hover:bg-gray-50"
           >
             <td class="px-6 py-3 text-center">{{ item.nombre }}</td>
-            <td class="px-6 py-3 text-center">{{ item.costo }}</td>
+            <td class="px-6 py-3 text-center">{{ item.precio }}</td>
             <td class="px-6 py-3 text-center" v-if="item.estado == 1">
               <FontAwesomeIcon
                 :icon="['fas', 'check']"
@@ -104,7 +104,12 @@ import { storeToRefs } from "pinia";
 import { usePizzasStore } from "../store/pizzas";
 import agregarPizzas from "./agregarPizzas.vue";
 import modalReceta from "./modalReceta.vue";
-const { busqueda, pizzasFiltradas, mostrarModal, mostrarModalReceta } =
-  storeToRefs(usePizzasStore());
+const {
+  busqueda,
+  pizzasFiltradas,
+  mostrarModal,
+  mostrarModalReceta,
+  getPizzas,
+} = storeToRefs(usePizzasStore());
 const { editar, eliminar, verModalReceta } = usePizzasStore();
 </script>

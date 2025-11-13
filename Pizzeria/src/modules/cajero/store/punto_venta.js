@@ -1,22 +1,14 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "../../../Router";
+import axios from "axios";
 // 'PuntoDeVenta' es el ID único de este store
 export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
   // --- STATE (El Estado o los Datos) ---
   // Aquí guardamos los datos que antes estaban en el componente.
   const menu = ref({
-    pizzas: [
-      { id: 1, nombre: "Pepperoni", precio: 150.0 },
-      { id: 2, nombre: "Hawaiana", precio: 160.0 },
-      { id: 3, nombre: "Mexicana", precio: 170.0 },
-      { id: 4, nombre: "Cuatro Quesos", precio: 165.0 },
-    ],
-    bebidas: [
-      { id: 10, nombre: "Refresco 600ml", precio: 25.0 },
-      { id: 11, nombre: "Agua Fresca 1L", precio: 30.0 },
-      { id: 12, nombre: "Jugo", precio: 20.0 },
-    ],
+    pizzas: [],
+    bebidas: [],
     extras: [],
   });
 
@@ -64,7 +56,22 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     pedido.value.orden = ordenActual.value;
     console.log(pedido.value);
   }
-
+  const obtenerMenu = async () => {
+    try {
+      const response = await axios.get("/get-menu");
+      menu.value.pizzas = response.data.productos.Pizza;
+      menu.value.bebidas = response.data.productos.Refresco;
+      menu.value.pizzas.forEach((pizza) => {
+        pizza.precio = parseFloat(pizza.precio);
+      });
+      menu.value.bebidas.forEach((bebida) => {
+        bebida.precio = parseFloat(bebida.precio);
+      });
+    } catch (error) {
+      console.error("Error al obtener el menú:", error);
+    }
+  };
+  obtenerMenu();
   // Finalmente, retornamos todo para que los componentes puedan usarlo.
   return {
     menu,
@@ -77,5 +84,6 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     cancelarOrden,
     pedido,
     realizarVenta,
+    obtenerMenu,
   };
 });

@@ -46,45 +46,47 @@
         </button>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div
-          v-if="categoriaActiva === 'pizzas'"
-          v-for="pizza in menu.pizzas"
-          :key="pizza.id"
-          @click="posStore.agregarAOrden(pizza)"
-          class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-700 transition-colors"
-        >
-          <p class="text-xl">
-            <FontAwesomeIcon
-              :icon="['fas', 'pizza-slice']"
-              style="color: white"
-              class="text-xl"
-            />
-          </p>
-          <p class="font-semibold mt-2">{{ pizza.nombre }}</p>
-          <p class="text-gray-400">${{ pizza.precio.toFixed(2) }}</p>
-        </div>
+      <div class="h-[75vh] overflow-y-auto pr-2">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div
+            v-if="categoriaActiva === 'pizzas'"
+            v-for="pizza in menu.pizzas"
+            :key="pizza.id"
+            @click="posStore.agregarAOrden(pizza)"
+            class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-700 transition-colors"
+          >
+            <p class="text-xl">
+              <FontAwesomeIcon
+                :icon="['fas', 'pizza-slice']"
+                style="color: white"
+                class="text-xl"
+              />
+            </p>
+            <p class="font-semibold mt-2">{{ pizza.nombre }}</p>
+            <p class="text-gray-400">${{ pizza.precio.toFixed(2) }}</p>
+          </div>
 
-        <div
-          v-if="categoriaActiva === 'bebidas'"
-          v-for="bebida in menu.bebidas"
-          :key="bebida.id"
-          @click="posStore.agregarAOrden(bebida)"
-          class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-700 transition-colors"
-        >
-          <p class="text-xl">
-            <FontAwesomeIcon
-              :icon="['fas', 'bottle-water']"
-              style="color: white"
-              class="text-xl"
-            />
-          </p>
-          <p class="font-semibold mt-2">{{ bebida.nombre }}</p>
-          <p class="text-gray-400">${{ bebida.precio.toFixed(2) }}</p>
-        </div>
+          <div
+            v-if="categoriaActiva === 'bebidas'"
+            v-for="bebida in menu.bebidas"
+            :key="bebida.id"
+            @click="posStore.agregarAOrden(bebida)"
+            class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-700 transition-colors"
+          >
+            <p class="text-xl">
+              <FontAwesomeIcon
+                :icon="['fas', 'bottle-water']"
+                style="color: white"
+                class="text-xl"
+              />
+            </p>
+            <p class="font-semibold mt-2">{{ bebida.nombre }}</p>
+            <p class="text-gray-400">${{ bebida.precio.toFixed(2) }}</p>
+          </div>
 
-        <div v-if="categoriaActiva === 'extras'">
-          <p class="text-gray-500">No hay extras por ahora.</p>
+          <div v-if="categoriaActiva === 'extras'">
+            <p class="text-gray-500">No hay extras por ahora.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -145,6 +147,7 @@ import { storeToRefs } from "pinia";
 import { usePuntoDeVentaStore } from "../store/punto_venta.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import router from "../../../Router/index.js";
+import { onMounted } from "vue";
 // 1. Instanciamos el store
 const posStore = usePuntoDeVentaStore();
 
@@ -152,7 +155,7 @@ const posStore = usePuntoDeVentaStore();
 // Usamos storeToRefs para mantener la reactividad.
 const { menu, ordenActual, categoriaActiva, totalOrden } =
   storeToRefs(posStore);
-const { realizarVenta } = posStore;
+const { realizarVenta, obtenerMenu } = posStore;
 function volver() {
   router.push({ name: "pos" });
 }

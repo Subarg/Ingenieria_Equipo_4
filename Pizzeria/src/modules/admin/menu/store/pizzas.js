@@ -10,9 +10,10 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
   const pizzas = ref([]);
 
   const pizza = ref({
+    id: 0,
     nombre: "",
     costo: 0,
-    estado: 1,
+    estado: true,
     receta: [{ id_insumo: 0, insumo: "", cantidad: 0 }],
   });
   const mostrarModal = ref(false);
@@ -27,6 +28,7 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     try {
       const response = await axios.get("/get-pizzas");
       pizzas.value = response.data.pizzas;
+      console.log(pizzas.value);
     } catch (error) {
       console.error("Error al obtener las pizzas:", error);
     }
@@ -38,17 +40,20 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
   function asignarPizza(item) {
     if (item != null) {
       pizza.value = {
+        id: item.id_producto || 0,
         nombre: item.nombre,
         costo: item.precio,
         estado: item.estado,
         receta: item.receta.map((i) => ({
+          id_receta: i.id_receta,
+          id_insumo: i.id_insumo,
           insumo: i.nombre,
           cantidad: i.cantidad,
           unidad_de_medida: i.unidad_de_medida,
         })),
       };
-      console.log(pizza.value);
     }
+    console.log(pizza.value);
   }
   const getInsumos = async () => {
     try {
@@ -117,6 +122,23 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     asignarPizza(item);
     mostrarModalReceta.value = true;
   }
+
+  const actualizarPizza = async () => {
+    try {
+      console.log(pizza.value);
+      const response = await axios.post("/update-pizza", pizza.value);
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Pizza actualizada correctamente",
+        });
+        getPizzas();
+        cerrarModal();
+      }
+    } catch (error) {
+      console.error("Error al actualizar las pizzas:", error);
+    }
+  };
   getPizzas();
   getInsumos();
   return {
@@ -135,5 +157,6 @@ export const usePizzasStore = defineStore("pizzasStore", () => {
     verModalReceta,
     getPizzas,
     insumos,
+    actualizarPizza,
   };
 });

@@ -39,14 +39,15 @@
             v-for="(insumo, index) in pizza.receta"
           >
             <select
-              class="flex-1 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="insumo.insumo"
+              v-model="pizza.receta[index].id_insumo"
+              @change="actualizarInsumoSeleccionado(index)"
+              class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">-- Selecciona un producto --</option>
               <option
                 v-for="item in insumos"
-                :key="item.id"
-                :value="item.nombre"
+                :key="item.id_insumo"
+                :value="item.id_insumo"
               >
                 {{ item.nombre }} ({{ item.unidad_de_medida }})
               </option>
@@ -54,6 +55,7 @@
 
             <input
               type="number"
+              step="0.01"
               placeholder="Cantidad"
               class="w-24 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               v-model="insumo.cantidad"
@@ -96,8 +98,9 @@
             Cancelar
           </button>
           <button
-            type="submit"
+            type="button"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            @click="actualizarPizza"
           >
             Guardar
           </button>
@@ -112,6 +115,23 @@ import { storeToRefs } from "pinia";
 import { usePizzasStore } from "../store/pizzas";
 
 const { pizza, mostrarModal, insumos } = storeToRefs(usePizzasStore());
-const { cerrarModal, guardarPizza, agregarInsumo, eliminarInsumo } =
-  usePizzasStore();
+const {
+  cerrarModal,
+  guardarPizza,
+  agregarInsumo,
+  eliminarInsumo,
+  actualizarPizza,
+} = usePizzasStore();
+
+function actualizarInsumoSeleccionado(index) {
+  console.log("Índice del insumo modificado:", index);
+  const idSeleccionado = pizza.value.receta[index].id_insumo;
+  const insumoSeleccionado = insumos.value.find((i) => i.id === idSeleccionado);
+
+  if (insumoSeleccionado) {
+    pizza.value.receta[index].insumo = insumoSeleccionado.nombre;
+  } else {
+    pizza.value.receta[index].insumo = "";
+  }
+}
 </script>

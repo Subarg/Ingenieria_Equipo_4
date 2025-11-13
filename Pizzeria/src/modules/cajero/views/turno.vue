@@ -18,6 +18,7 @@
             class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Ej. 1"
             :disabled="true"
+            v-model="turno.numTurno"
           />
         </div>
 
@@ -25,11 +26,16 @@
           <label class="block text-sm font-medium text-gray-700">Caja</label>
           <select
             class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            @change="asignarCaja($event.target.value)"
           >
             <option value="">-- Selecciona una caja --</option>
-            <option value="1">Caja 1</option>
-            <option value="2">Caja 2</option>
-            <option value="3">Caja 3</option>
+            <option
+              v-for="(caja, index) in cajas"
+              :value="index + 1"
+              :key="caja.id"
+            >
+              Caja {{ caja.numero }}
+            </option>
           </select>
         </div>
 
@@ -42,6 +48,7 @@
             step="0.01"
             class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="$0.00"
+            v-model="turno.fondoIncial"
           />
         </div>
 
@@ -56,6 +63,7 @@
           <button
             type="button"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            @click="registrarTurno()"
           >
             Iniciar
           </button>
@@ -69,6 +77,11 @@
 import { storeToRefs } from "pinia";
 import { useCajeroStore } from "../store/cajero";
 
-const { turno, modalTurno } = storeToRefs(useCajeroStore());
-const { cerrarModalTurno } = useCajeroStore();
+const { turno, modalTurno, cajas } = storeToRefs(useCajeroStore());
+const { cerrarModalTurno, registrarTurno } = useCajeroStore();
+
+function asignarCaja(caja) {
+  console.log("Caja seleccionada:", caja);
+  turno.value.caja = caja;
+}
 </script>

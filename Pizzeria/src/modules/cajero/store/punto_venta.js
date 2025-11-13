@@ -71,7 +71,9 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
       console.error("Error al obtener el menú:", error);
     }
   };
+
   obtenerMenu();
+
   // Finalmente, retornamos todo para que los componentes puedan usarlo.
   return {
     menu,

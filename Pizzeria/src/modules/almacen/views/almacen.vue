@@ -40,10 +40,14 @@
             :key="index"
             class="border-b hover:bg-gray-50"
           >
-            <td class="px-6 py-3 text-center">{{ item.producto }}</td>
-            <td class="px-6 py-3 text-center">{{ item.cantidad }}</td>
-            <td class="px-6 py-3 text-center">${{ item.costo.toFixed(2) }}</td>
-            <td class="px-6 py-3 text-center">{{ item.unidad }}</td>
+            <td class="px-6 py-3 text-center">{{ item.nombre }}</td>
+            <td class="px-6 py-3 text-center">
+              {{ item.cantidad_en_almacen }}
+            </td>
+            <td class="px-6 py-3 text-center">
+              ${{ (+item.costo).toFixed(2) }}
+            </td>
+            <td class="px-6 py-3 text-center">{{ item.unidad_de_medida }}</td>
             <td class="px-6 py-3 text-center">
               <button
                 class="mr-3 p-1 hover:scale-110 transition-transform"

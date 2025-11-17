@@ -7,44 +7,16 @@ import Swal from "sweetalert2";
 export const useEmpleadosStore = defineStore("empleadosStore", () => {
   const busqueda = ref("");
 
-  const empleados = ref([
-    {
-      nombre: "Juan",
-      apellidos: "Pérez López",
-      cargo: "administrador",
-      fechaContrato: "2023-01-15",
-    },
-    {
-      nombre: "María",
-      apellidos: "García Sánchez",
-      cargo: "cajero",
-      fechaContrato: "2023-03-10",
-    },
-    {
-      nombre: "Luis",
-      apellidos: "Martínez Ruiz",
-      cargo: "almacenista",
-      fechaContrato: "2022-11-22",
-    },
-    {
-      nombre: "Ana",
-      apellidos: "Hernández Torres",
-      cargo: "chef",
-      fechaContrato: "2024-05-01",
-    },
-    {
-      nombre: "Carlos",
-      apellidos: "Ramírez Díaz",
-      cargo: "chef",
-      fechaContrato: "2023-07-18",
-    },
-  ]);
+  const empleados = ref([]);
 
   const empleado = ref({
+    id: null,
     nombre: "",
-    apellidos: "",
-    cargo: "",
-    fechaContrato: "",
+    apellido_paterno: "",
+    apellido_materno: "",
+    rol_id: "",
+    rol: "",
+    fecha_de_contrato: "",
   });
 
   const mostrarModal = ref(false);
@@ -57,10 +29,13 @@ export const useEmpleadosStore = defineStore("empleadosStore", () => {
   function editar(item) {
     if (item != null) {
       empleado.value = {
+        id: item.id_empleado,
         nombre: item.nombre,
-        apellidos: item.apellidos,
-        cargo: item.cargo,
-        fechaContrato: item.fechaContrato,
+        apellido_paterno: item.apellido_paterno,
+        apellido_materno: item.apellido_materno,
+        rol_id: item.rol_id,
+        rol: item.rol_nombre,
+        fecha_de_contrato: item.fecha_de_contrato,
       };
     }
     mostrarModal.value = true;
@@ -86,31 +61,73 @@ export const useEmpleadosStore = defineStore("empleadosStore", () => {
   function limpiarModal() {
     empleado.value = {
       nombre: "",
-      apellidos: "",
-      cargo: "",
-      fechaContrato: "",
+      apellido_paterno: "",
+      apellido_materno: "",
+      rol_id: "",
+      rol: "",
+      fecha_de_contrato: "",
     };
   }
 
   async function guardarEmpleado() {
-    console.log("entro");
-    comprobarEmpleado();
+    console.log(empleado.value);
+    if (!comprobarEmpleado()) {
+      return;
+    }
+    try {
+      const response = await axios.post("/update-empleado", empleado.value);
+      Swal.fire({
+        icon: "success",
+        title: "Empleado guardado",
+        text: "El empleado ha sido guardado correctamente",
+      });
+      cerrarModal();
+      getEmpleados();
+    } catch (error) {
+      console.error("Error al guardar el empleado:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al guardar el empleado",
+      });
+    }
+  }
+  async function getEmpleados() {
+    try {
+      const response = await axios.get("/get-users");
+      let empleadosArray = [];
+      if (typeof response.data === "object" && !Array.isArray(response.data)) {
+        empleadosArray = Object.values(response.data).flat();
+      } else if (Array.isArray(response.data)) {
+        empleadosArray = response.data.flat();
+      } else {
+        empleadosArray = response.data;
+      }
+      empleados.value = empleadosArray;
+    } catch (error) {
+      console.error("Error al obtener los empleados:", error);
+    }
   }
 
   async function comprobarEmpleado() {
+    let flag = true;
     if (
       empleado.value.nombre == "" ||
-      empleado.value.apellidos == "" ||
-      empleado.value.cargo == "" ||
-      empleado.value.fechaContrato == ""
+      empleado.value.apellido_paterno == "" ||
+      empleado.value.apellido_materno == "" ||
+      empleado.value.rol_id == "" ||
+      empleado.value.fecha_de_contrato == ""
     ) {
+      flag = false;
       Swal.fire({
         icon: "warning",
         title: "Error al guardar empleado",
         text: "Rellene todos los campos correctamente",
       });
     }
+    return flag;
   }
+  getEmpleados();
 
   return {
     empleado,
@@ -121,5 +138,6 @@ export const useEmpleadosStore = defineStore("empleadosStore", () => {
     eliminar,
     cerrarModal,
     guardarEmpleado,
+    getEmpleados,
   };
 });

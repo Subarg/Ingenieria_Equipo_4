@@ -34,6 +34,14 @@ import {
   faBottleWater,
   faCaretLeft,
   faCaretDown,
+  faMoneyBill,
+  faHouse,
+  faUtensils,
+  faMapPin,
+  faHourglassHalf,
+  faClock,
+  faRotateRight,
+  faArrowsRotate,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -59,7 +67,15 @@ library.add(
   faMoneyCheckDollar,
   faBottleWater,
   faCaretLeft,
-  faCaretDown
+  faCaretDown,
+  faMoneyBill,
+  faHouse,
+  faUtensils,
+  faMapPin,
+  faHourglassHalf,
+  faClock,
+  faRotateRight,
+  faArrowsRotate
 );
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;

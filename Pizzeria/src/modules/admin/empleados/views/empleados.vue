@@ -39,9 +39,11 @@
             class="border-b hover:bg-gray-50"
           >
             <td class="px-6 py-3 text-center">{{ item.nombre }}</td>
-            <td class="px-6 py-3 text-center">{{ item.apellidos }}</td>
-            <td class="px-6 py-3 text-center">{{ item.cargo }}</td>
-            <td class="px-6 py-3 text-center">{{ item.fechaContrato }}</td>
+            <td class="px-6 py-3 text-center">
+              {{ item.apellido_paterno + " " + item.apellido_materno }}
+            </td>
+            <td class="px-6 py-3 text-center">{{ item.rol_nombre }}</td>
+            <td class="px-6 py-3 text-center">{{ item.fecha_de_contrato }}</td>
             <td class="px-6 py-3 text-center">
               <button
                 class="mr-3 p-1 hover:scale-110 transition-transform"

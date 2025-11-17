@@ -14,6 +14,41 @@
         <h1 class="text-2xl font-bold mb-6 text-center">Registrar Usuario</h1>
 
         <div class="mb-4">
+          <label class="block mb-2 font-semibold">Empleado:</label>
+          <div class="relative">
+            <input
+              type="text"
+              v-model="busquedaEmpleado"
+              @focus="mostrarListaEmpleados = true"
+              @input="filtrarEmpleados"
+              placeholder="Buscar empleado..."
+              class="w-full p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+              required
+            />
+
+            <div
+              v-if="mostrarListaEmpleados && empleadosFiltrados.length > 0"
+              class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto"
+            >
+              <div
+                v-for="empleado in empleadosFiltrados"
+                :key="empleado.id"
+                @click="seleccionarEmpleado(empleado)"
+                class="p-3 hover:bg-blue-50 cursor-pointer transition-colors"
+              >
+                <div class="font-medium">
+                  {{ empleado.nombre }} {{ empleado.apellido_paterno }}
+                  {{ empleado.apellido_materno }}
+                </div>
+                <div class="text-sm text-gray-500">
+                  {{ empleado.rol_nombre || "Sin puesto" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
           <input
             type="text"
             placeholder="Usuario"
@@ -36,15 +71,16 @@
         <div class="mb-6">
           <label class="block mb-2 font-semibold">Rol:</label>
           <select
-            v-model="registro.rol"
+            v-model="registro.rol_id"
             class="w-full p-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
             required
+            :disabled="true"
           >
             <option disabled value="">Selecciona un rol</option>
-            <option>Administrador</option>
-            <option>Almacenista</option>
-            <option>Chef</option>
-            <option>Cajero</option>
+            <option :value="1">Administrador</option>
+            <option :value="4">Almacenista</option>
+            <option :value="3">Chef</option>
+            <option :value="2">Cajero</option>
           </select>
         </div>
 
@@ -60,12 +96,44 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useLoginStore } from "../../login/store/login";
+import { useEmpleadosStore } from "../../admin/empleados/store/empleados";
 
-const { mostrarContraseña } = useLoginStore();
+const { mostrarContraseña, asignarRegistro, registrarUsuario } =
+  useLoginStore();
 const { registro } = storeToRefs(useLoginStore());
+
+const { getEmpleados } = useEmpleadosStore();
+const { empleadosFiltrados } = storeToRefs(useEmpleadosStore());
+
+const busquedaEmpleado = ref("");
+const mostrarListaEmpleados = ref(false);
+const empleadoSeleccionado = ref(null);
+
+const seleccionarEmpleado = (empleado) => {
+  empleadoSeleccionado.value = empleado;
+  busquedaEmpleado.value = `${empleado.nombre} ${empleado.apellido_paterno}`;
+  mostrarListaEmpleados.value = false;
+  registro.value = empleado;
+  console.log(registro.value);
+};
+
+const filtrarEmpleados = () => {
+  mostrarListaEmpleados.value = true;
+};
+
+const cerrarLista = (e) => {
+  if (!e.target.closest(".relative")) {
+    mostrarListaEmpleados.value = false;
+  }
+};
+
+onMounted(() => {
+  getEmpleados();
+  document.addEventListener("click", cerrarLista);
+});
 </script>

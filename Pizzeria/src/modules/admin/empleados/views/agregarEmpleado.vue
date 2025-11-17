@@ -23,10 +23,21 @@
 
         <div>
           <label class="block text-sm font-medium text-gray-700"
-            >Apellidos</label
+            >Apellido Paterno</label
           >
           <input
-            v-model.number="empleado.apellidos"
+            v-model.number="empleado.apellido_paterno"
+            type="text"
+            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700"
+            >Apellido Materno</label
+          >
+          <input
+            v-model.number="empleado.apellido_materno"
             type="text"
             class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -36,15 +47,15 @@
         <div>
           <label class="block text-sm font-medium text-gray-700">Cargo</label>
           <select
-            v-model="empleado.cargo"
+            v-model="empleado.rol_id"
             class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           >
             <option value="">-- Selecciona una cargo--</option>
-            <option value="administrador">Administrador</option>
-            <option value="chef">Chef</option>
-            <option value="cajero">Cajero</option>
-            <option value="almacenista">Almacenista</option>
+            <option :value=1 >Administrador</option>
+            <option :value=3>Chef</option>
+            <option :value=2>Cajero</option>
+            <option :value=4>Almacenista</option>
           </select>
         </div>
 
@@ -52,7 +63,7 @@
           <label class="block text-sm font-medium text-gray-700"
             >Fecha de contratación</label
           >
-          <input v-model="empleado.fechaContrato" type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <input v-model="empleado.fecha_de_contrato" type="date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </input>
         </div>
 

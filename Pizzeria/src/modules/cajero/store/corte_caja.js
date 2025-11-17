@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import Swal from "sweetalert2";
-import axios from "axios";
-import axios from "axios";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 export const useCorteCajaStore = defineStore("CorteCaja", () => {
@@ -30,15 +28,7 @@ export const useCorteCajaStore = defineStore("CorteCaja", () => {
     return efectivoEnCaja.value - dineroEsperadoEnCaja.value;
   });
 
-  const usuarioId = localStorage.getItem("user_id");
-
-  async function buscarUsuario() {
-    try {
-      const response = await axios.post("buscar-user", usuarioId);
-      console.log(response.data);
-    } catch {}
-  }
-  // --- ACTIONS (Funciones que podemos llamar) ---
+  // --- ACTIONS ---
   function realizarCorte() {
     if (fondoInicial.value <= 0) {
       Swal.fire({
@@ -59,7 +49,7 @@ export const useCorteCajaStore = defineStore("CorteCaja", () => {
     }
 
     corteRealizado.value = true;
-
+    
     // Aquí se podría guardar el corte en la base de datos
     console.log("Corte realizado:", {
       fondoInicial: fondoInicial.value,
@@ -75,11 +65,10 @@ export const useCorteCajaStore = defineStore("CorteCaja", () => {
     fondoInicial.value = 0;
     efectivoEnCaja.value = 0;
     corteRealizado.value = false;
-
+    
     // En una implementación real, también resetearíamos las ventas
     // o las obtendríamos del nuevo turno
   }
-  buscarUsuario();
 
   return {
     // State
@@ -88,12 +77,12 @@ export const useCorteCajaStore = defineStore("CorteCaja", () => {
     corteRealizado,
     ventasEnEfectivo,
     ventasConTarjeta,
-
+    
     // Getters
     ventasTotales,
     dineroEsperadoEnCaja,
     diferencia,
-
+    
     // Actions
     realizarCorte,
     nuevoCorte,

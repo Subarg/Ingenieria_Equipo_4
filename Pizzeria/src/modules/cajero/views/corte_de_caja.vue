@@ -172,10 +172,6 @@ const cajeroStore = useCajeroStore();
 const fecha = ref("");
 const nombreCajero = ref("Usuario"); // Puedes obtenerlo de localStorage o del backend
 
-const { nuevoCorte } = storeToRefs(useCorteCajaStore());
-
-const { nuevoCorte } = storeToRefs(useCorteCajaStore());
-
 onMounted(() => {
   const hoy = new Date();
   const year = hoy.getFullYear();

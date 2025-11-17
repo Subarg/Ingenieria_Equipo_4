@@ -1,46 +1,90 @@
-import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import axios from "axios";
 
-export const useDashboardVentasStore = defineStore('DashboardVentas', () => {
+export const useDashboardVentasStore = defineStore("dashboardVentas", () => {
+  const pizzasVendidas = ref([]);
+  const loading = ref(false);
+  const error = ref(null);
 
-    // --- STATE (Datos Simulados) ---
-    // En un futuro, esto vendría de tu base de datos
-    const productosVendidos = ref([
-        { id: 1, nombre: 'Pizza Pepperoni', cantidad: 85, precio: 150.00 },
-        { id: 2, nombre: 'Pizza Hawaiana', cantidad: 60, precio: 160.00 },
-        { id: 3, nombre: 'Refresco 600ml', cantidad: 110, precio: 25.00 },
-        { id: 4, nombre: 'Pizza Mexicana', cantidad: 45, precio: 170.00 },
-        { id: 5, nombre: 'Pizza 4 Quesos', cantidad: 55, precio: 165.00 },
-    ]);
+  const fechaInicial = ref(null);
+  const fechaFinal = ref(null);
 
-    // --- GETTERS (Datos Calculados) ---
+  const totalVentasMonetario = computed(() => {
+    return pizzasVendidas.value.reduce((total, pizza) => {
+      return total + parseFloat(pizza.venta_total || 0);
+    }, 0);
+  });
 
-    // 1. Calcula el total de ventas en dinero
-    const totalVentasMonetario = computed(() => {
-        return productosVendidos.value.reduce((total, p) => total + (p.cantidad * p.precio), 0);
-    });
+  const totalItemsVendidos = computed(() => {
+    return pizzasVendidas.value.reduce((total, pizza) => {
+      return total + parseInt(pizza.cantidad || 0);
+    }, 0);
+  });
 
-    // 2. Calcula el número total de productos vendidos
-    const totalItemsVendidos = computed(() => {
-        return productosVendidos.value.reduce((total, p) => total + p.cantidad, 0);
-    });
+  const topProductos = computed(() => {
+    return pizzasVendidas.value.map((pizza) => ({
+      id: pizza.id_producto,
+      nombre: pizza.nombre,
+      cantidad: parseInt(pizza.cantidad || 0),
+      ventaTotal: parseFloat(pizza.venta_total || 0),
+      vecesVendida: parseInt(pizza.veces_vendida || 0),
+    }));
+  });
 
-    // 3. Ordena los productos de más a menos vendidos (para el gráfico)
-    const topProductos = computed(() => {
-        // Hacemos una copia con '...' y la ordenamos
-        return [...productosVendidos.value].sort((a, b) => b.cantidad - a.cantidad);
-    });
+  const productoEstrella = computed(() => {
+    if (pizzasVendidas.value.length === 0) {
+      return "N/A";
+    }
+    return pizzasVendidas.value[0].nombre;
+  });
 
-    // 4. Obtiene el producto estrella
-    const productoEstrella = computed(() => {
-        // El primer item de la lista ya ordenada
-        return topProductos.value[0]?.nombre || 'N/A';
-    });
+  async function cargarVentas() {
+    loading.value = true;
+    error.value = null;
 
-    return {
-        totalVentasMonetario,
-        totalItemsVendidos,
-        topProductos,
-        productoEstrella
-    };
+    try {
+      const response = await axios.post("get-pizzas-reporte", {
+        fechaInicial: fechaInicial.value,
+        fechaFinal: fechaFinal.value,
+      });
+
+      if (response.data.success) {
+        pizzasVendidas.value = response.data.data;
+      } else {
+        error.value = "No se pudieron cargar las ventas";
+        pizzasVendidas.value = [];
+      }
+    } catch (err) {
+      console.error("Error al cargar ventas:", err);
+      error.value = err.message || "Error al cargar los datos";
+      pizzasVendidas.value = [];
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  function filtrarPorFechas(inicio, fin) {
+    fechaInicial.value = inicio;
+    fechaFinal.value = fin;
+  }
+
+  return {
+    // Estado
+    pizzasVendidas,
+    loading,
+    error,
+    fechaInicial,
+    fechaFinal,
+
+    // Computed
+    totalVentasMonetario,
+    totalItemsVendidos,
+    topProductos,
+    productoEstrella,
+
+    // Acciones
+    filtrarPorFechas,
+    cargarVentas,
+  };
 });

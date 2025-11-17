@@ -3,6 +3,7 @@
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Bienvenido, Cajero</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Botón Iniciar Turno -->
       <div
         class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center"
       >
@@ -19,6 +20,7 @@
         </button>
       </div>
 
+      <!-- Botón Iniciar Venta -->
       <div
         class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center"
       >
@@ -36,6 +38,7 @@
         </router-link>
       </div>
 
+      <!-- Botón Corte de Caja -->
       <div
         class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center"
       >
@@ -55,18 +58,18 @@
     </div>
   </div>
 
-  <div v-if="modalTurno">
-    <turno />
-  </div>
+  <!-- Renderiza el modal -->
+  <Turno />
 </template>
 
 <script setup>
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { storeToRefs } from "pinia";
-import { useCajeroStore } from "../store/cajero";
-import router from "../../../Router";
-import turno from "./turno.vue";
+import { useCajeroStore } from "../store/cajero.js";
+import Turno from "./turno.vue";
 
-const { modalTurno } = storeToRefs(useCajeroStore());
-const { mostrarModalTurno } = useCajeroStore();
+// Instancia del store
+const cajeroStore = useCajeroStore();
+
+// Destructura la función que necesitas
+const { mostrarModalTurno } = cajeroStore;
 </script>

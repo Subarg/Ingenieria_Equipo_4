@@ -1,62 +1,89 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 export const useCorteCajaStore = defineStore("CorteCaja", () => {
-  // --- STATE (Datos que el usuario ingresará) ---
+  // --- STATE ---
   const fondoInicial = ref(0);
-  const efectivoEnCaja = ref(0); // El dinero que el cajero cuenta físicamente
-  const corteRealizado = ref(false); // Para saber si mostrar el formulario o el resultado
+  const efectivoEnCaja = ref(0);
+  const corteRealizado = ref(false);
 
-  // --- DATOS SIMULADOS (Esto vendrá de tu sistema de ventas después) ---
+  // Datos de ventas (estos deberían venir del backend en una implementación real)
   const ventasEnEfectivo = ref(1550.5);
   const ventasConTarjeta = ref(850.0);
 
-  // --- GETTERS (Datos que se calculan solos) ---
+  // --- GETTERS ---
   const ventasTotales = computed(
     () => ventasEnEfectivo.value + ventasConTarjeta.value
   );
 
   const dineroEsperadoEnCaja = computed(() => {
-    // El dinero que debería haber es el fondo inicial más solo las ventas en efectivo
+    // El dinero esperado es el fondo inicial más las ventas en efectivo
     return fondoInicial.value + ventasEnEfectivo.value;
   });
 
   const diferencia = computed(() => {
-    // Comparamos lo que contamos con lo que debería haber
+    // Diferencia entre lo contado y lo esperado
     return efectivoEnCaja.value - dineroEsperadoEnCaja.value;
   });
 
-  // --- ACTIONS (Funciones que podemos llamar) ---
+  // --- ACTIONS ---
   function realizarCorte() {
-    if (fondoInicial.value > 0 && efectivoEnCaja.value > 0) {
-      corteRealizado.value = true;
-      // En un futuro, aquí se guardaría el corte en la base de datos
-    } else {
+    if (fondoInicial.value <= 0) {
       Swal.fire({
         icon: "warning",
-        title: "Error",
-        text: "Ingrese los datos correctamente",
+        title: "Fondo inicial requerido",
+        text: "El fondo inicial debe ser mayor a cero.",
       });
+      return;
     }
+
+    if (efectivoEnCaja.value <= 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Efectivo en caja requerido",
+        text: "Ingresa el efectivo contado en caja.",
+      });
+      return;
+    }
+
+    corteRealizado.value = true;
+    
+    // Aquí se podría guardar el corte en la base de datos
+    console.log("Corte realizado:", {
+      fondoInicial: fondoInicial.value,
+      efectivoEnCaja: efectivoEnCaja.value,
+      ventasEnEfectivo: ventasEnEfectivo.value,
+      ventasConTarjeta: ventasConTarjeta.value,
+      diferencia: diferencia.value,
+    });
   }
 
   function nuevoCorte() {
-    // Reseteamos los valores para el siguiente turno
+    // Reseteamos los valores
     fondoInicial.value = 0;
     efectivoEnCaja.value = 0;
     corteRealizado.value = false;
+    
+    // En una implementación real, también resetearíamos las ventas
+    // o las obtendríamos del nuevo turno
   }
 
   return {
+    // State
     fondoInicial,
     efectivoEnCaja,
     corteRealizado,
     ventasEnEfectivo,
     ventasConTarjeta,
+    
+    // Getters
     ventasTotales,
     dineroEsperadoEnCaja,
     diferencia,
+    
+    // Actions
     realizarCorte,
     nuevoCorte,
   };

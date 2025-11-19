@@ -185,8 +185,8 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     try {
       const response = await apiClient.get("/get-menu");
 
-      menu.value.pizzas = response.data.productos.Pizza || [];
-      menu.value.bebidas = response.data.productos.Refresco || [];
+      menu.value.pizzas = response.data.Pizza || [];
+      menu.value.bebidas = response.data.Refresco || [];
 
       menu.value.pizzas.forEach((pizza) => {
         pizza.precio = parseFloat(pizza.precio);
@@ -205,6 +205,9 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
       });
     }
   };
+  const pizzasDisponibles = computed(() =>
+    menu.value.pizzas.filter((p) => p.disponible)
+  );
 
   // Carga inicial del menú
   obtenerMenu();
@@ -222,5 +225,6 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     realizarVenta,
     obtenerMenu,
     confirmarVenta,
+    pizzasDisponibles,
   };
 });

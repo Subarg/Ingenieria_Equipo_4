@@ -50,7 +50,7 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <div
             v-if="categoriaActiva === 'pizzas'"
-            v-for="pizza in menu.pizzas"
+            v-for="pizza in pizzasDisponibles"
             :key="pizza.id"
             @click="posStore.agregarAOrden(pizza)"
             class="bg-gray-800 p-4 rounded-lg text-center cursor-pointer hover:bg-gray-700 transition-colors"
@@ -153,7 +153,7 @@ const posStore = usePuntoDeVentaStore();
 
 // 2. Extraemos las variables y computadas que necesitamos del store.
 // Usamos storeToRefs para mantener la reactividad.
-const { menu, ordenActual, categoriaActiva, totalOrden } =
+const { menu, ordenActual, categoriaActiva, totalOrden, pizzasDisponibles } =
   storeToRefs(posStore);
 const { realizarVenta, obtenerMenu } = posStore;
 function volver() {

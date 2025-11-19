@@ -137,9 +137,8 @@ const menus = [
       { nombre: "Almacen", path: "/almacen" },
       { nombre: "Pizzas", path: "/pizzas" },
       { nombre: "Reporte Productos", path: "/reporte-compras" },
-      { nombre: "Dashboard Ventas", path: "" },
+      { nombre: "Dashboard Ventas", path: "dashboard-ventas-total" },
       { nombre: "Dashboard Ventas X Pizza", path: "/dashboard-ventas" },
-      { nombre: "Dashboard Pizzas", path: "" },
       { nombre: "Empleados", path: "/empleados" },
       { nombre: "Registrar Usuario", path: "/registro" },
     ],
@@ -163,7 +162,7 @@ const menus = [
     icon: "box",
     rol: "almacenista",
     rol_id: 4,
-    vistas: [{ nombre: "Insumos", path: "" }],
+    vistas: [{ nombre: "Insumos", path: "/almacen" }],
   },
 ];
 </script>

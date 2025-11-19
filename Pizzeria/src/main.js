@@ -42,6 +42,9 @@ import {
   faClock,
   faRotateRight,
   faArrowsRotate,
+  faCircle,
+  faCircleExclamation,
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -75,7 +78,9 @@ library.add(
   faHourglassHalf,
   faClock,
   faRotateRight,
-  faArrowsRotate
+  faArrowsRotate,
+  faCircleExclamation,
+  faBell
 );
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;

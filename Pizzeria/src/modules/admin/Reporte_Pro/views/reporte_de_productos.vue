@@ -14,6 +14,10 @@
     </header>
 
     <main id="reporte" class="bg-gray-800 p-6 rounded-2xl shadow-lg text-white">
+      <div v-if="cargando" class="text-center text-blue-400 mb-4">
+        Cargando datos...
+      </div>
+
       <div
         class="flex justify-between items-center mb-6 border-b border-gray-600 pb-3"
       >
@@ -36,6 +40,10 @@
           </thead>
 
           <tbody>
+            <tr v-if="comprasConTotal.length === 0 && !cargando">
+                <td colspan="5" class="p-4 text-center text-gray-500">No hay compras registradas hoy.</td>
+            </tr>
+
             <tr
               v-for="compra in comprasConTotal"
               :key="compra.id"
@@ -72,13 +80,20 @@
 </template>
 
 <script setup>
+
+import { onMounted } from 'vue'; 
 import { storeToRefs } from "pinia";
 import { useReporteComprasStore } from "../store/reporte_compras.js";
 import printJS from "print-js";
 
 const reporteStore = useReporteComprasStore();
-const { fechaReporte, comprasConTotal, granTotalCompras } =
-  storeToRefs(reporteStore);
+
+
+const { fechaReporte, comprasConTotal, granTotalCompras, cargando } = storeToRefs(reporteStore);
+
+onMounted(() => {
+    reporteStore.cargarComprasDesdeBD();
+});
 
 const usuario = "user";
 
@@ -89,7 +104,7 @@ function imprimirReporte() {
     targetStyles: ["*"],
     style: `
       @page { size: A4; margin: 20mm; }
-      body { font-family: 'Arial', sans-serif; color: #0000; }
+      body { font-family: 'Arial', sans-serif; color: #000; }
       h1, h2, h3, th, td, p, strong {
         color: #000 !important;
         font-weight: 600;

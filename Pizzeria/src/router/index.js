@@ -34,12 +34,12 @@ const routes = [
         name: "pizzas",
         component: () => import("../modules/admin/menu/views/pizzas.vue"),
       },
-      /* {
-        path: "/dashboard-ventas",
+      {
+        path: "/dashboard-ventas-total",
         name: "dashboard-ventas-total",
         component: () =>
           import("../modules/admin/dashboard/views/dashboardVentas.vue"),
-      },*/
+      },
     ],
   },
   {

@@ -54,16 +54,6 @@
                   class="text-blue-600 text-lg"
                 />
               </button>
-
-              <button
-                class="p-1 hover:scale-110 transition-transform"
-                @click="eliminar(item)"
-              >
-                <FontAwesomeIcon
-                  :icon="['fas', 'trash-can']"
-                  class="text-red-600 text-lg"
-                />
-              </button>
             </td>
           </tr>
           <tr v-if="empleadosFiltrados.length === 0">

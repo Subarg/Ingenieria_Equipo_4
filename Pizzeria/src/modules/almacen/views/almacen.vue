@@ -86,16 +86,6 @@
 
               <button
                 class="p-1 hover:scale-110 transition-transform"
-                @click="eliminar(item)"
-                v-if="rol_id == 1"
-              >
-                <FontAwesomeIcon
-                  :icon="['fas', 'trash-can']"
-                  class="text-red-600 text-lg"
-                />
-              </button>
-              <button
-                class="p-1 hover:scale-110 transition-transform"
                 @click="abrirModalCrearAlarma(item)"
               >
                 <FontAwesomeIcon

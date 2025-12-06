@@ -11,15 +11,17 @@ export const usePedidosStore = defineStore("pedidos", () => {
   // --- GETTERS ---
   // Filtra por el campo "estado" que viene de tu BD
   const nuevosPedidos = computed(() =>
-    pedidos.value.filter((p) => p.estado === "nuevo")
+    pedidos.value.filter((p) => p.estado?.trim().toLowerCase() === "nuevo")
   );
 
   const pedidosEnPreparacion = computed(() =>
-    pedidos.value.filter((p) => p.estado === "en_preparacion")
+    pedidos.value.filter(
+      (p) => p.estado?.trim().toLowerCase() === "en_preparacion"
+    )
   );
 
   const pedidosListos = computed(() =>
-    pedidos.value.filter((p) => p.estado === "listo")
+    pedidos.value.filter((p) => p.estado?.trim().toLowerCase() === "listo")
   );
 
   // --- ACTIONS ---

@@ -62,18 +62,6 @@
           </select>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium text-gray-700"
-            >Proveedor</label
-          >
-          <input
-            v-model="producto.proveedor"
-            type="text"
-            class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
         <div class="flex justify-end gap-3 pt-4">
           <button
             type="button"
@@ -83,7 +71,6 @@
             Cancelar
           </button>
           <button
-            type="submit"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             @click="guardarProducto"
           >

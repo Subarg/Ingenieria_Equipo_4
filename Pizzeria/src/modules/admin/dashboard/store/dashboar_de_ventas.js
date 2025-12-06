@@ -68,7 +68,54 @@ export const useDashboardVentasStore = defineStore("dashboardVentas", () => {
     fechaInicial.value = inicio;
     fechaFinal.value = fin;
   }
+  const consulta = ref({
+    fecha_inicial: "",
+    fecha_final: "",
+  });
+  const ventas = ref([]);
+  async function getVentas() {
+    try {
+      const response = await axios.post("get-ventas", {
+        fecha_inicial: consulta.value.fecha_inicial,
+        fecha_final: consulta.value.fecha_final,
+      });
 
+      const aux = response.data.map((p) => {
+        return {
+          ...p,
+          total: parseFloat(p.total),
+        };
+      });
+
+      ventas.value = aux;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const totalVentastabla = computed(() => {
+    return ventas.value.reduce((sum, venta) => sum + venta.total, 0);
+  });
+
+  const promedioVentas = computed(() => {
+    return Math.round(totalVentastabla.value / ventas.value.length);
+  });
+
+  function formatearFecha(fecha) {
+    const opciones = { day: "2-digit", month: "short", year: "numeric" };
+    return new Date(fecha).toLocaleDateString("es-ES", opciones);
+  }
+  const pedidoSeleccionado = ref({});
+  const mostrarModalPedidos = ref(false);
+  function abrirModalPedidos(item) {
+    pedidoSeleccionado.value = item;
+    mostrarModalPedidos.value = true;
+    console.log(pedidoSeleccionado.value);
+  }
+
+  function cerrarModalPedidos() {
+    mostrarModalPedidos.value = false;
+  }
   return {
     // Estado
     pizzasVendidas,
@@ -86,5 +133,15 @@ export const useDashboardVentasStore = defineStore("dashboardVentas", () => {
     // Acciones
     filtrarPorFechas,
     cargarVentas,
+    consulta,
+    ventas,
+    getVentas,
+    totalVentastabla,
+    promedioVentas,
+    formatearFecha,
+    mostrarModalPedidos,
+    abrirModalPedidos,
+    cerrarModalPedidos,
+    pedidoSeleccionado,
   };
 });

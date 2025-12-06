@@ -2,13 +2,13 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "../../../Router";
 import apiClient from "../../../axios";
-import Swal from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 // Importamos el store de cajero para saber el turno actual
 import { useCajeroStore } from "./cajero.js";
 // Importamos el store de pedidos para actualizar la otra pantalla
-import { usePedidosStore } from '../../pedidos/store/pedidos.js'; 
+import { usePedidosStore } from "../../pedidos/store/pedidos.js";
 
 export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
   // --- STATE ---
@@ -64,18 +64,22 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     pedido.value.metodoPago = "efectivo";
     pedido.value.venta.tipo_venta = "comer_aqui";
     pedido.value.venta.lugar = "";
-    
+
     router.push({ name: "venta" });
   }
 
   // --- FUNCIÓN MEJORADA ---
   async function confirmarVenta() {
     const cajeroStore = useCajeroStore();
-    
+
     console.log("Estado del turno:", cajeroStore.turno);
     console.log("Turno activo:", cajeroStore.turnoActivo);
-    
-    if (!cajeroStore.turnoActivo || !cajeroStore.turno.numTurno || cajeroStore.turno.numTurno === 0) {
+
+    if (
+      !cajeroStore.turnoActivo ||
+      !cajeroStore.turno.numTurno ||
+      cajeroStore.turno.numTurno === 0
+    ) {
       Swal.fire({
         icon: "error",
         title: "No hay turno activo",
@@ -151,34 +155,33 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
 
       ordenActual.value = [];
       router.push({ name: "pos" });
-
     } catch (error) {
       console.error("Error al confirmar la venta:", error);
       console.error("Detalles:", error.response?.data);
-      
+
       let errorTitle = "Error al registrar venta";
       let errorMessage = "No se pudo registrar la venta.";
       let errorIcon = "error";
 
       // --- NUEVO: Manejo específico del error de stock (422) ---
       if (error.response?.status === 422) {
-          errorTitle = "Stock Insuficiente";
-          // El error vendrá en 'message' o 'errors.stock'
-          if (error.response.data.errors?.stock) {
-            errorMessage = error.response.data.errors.stock[0]; // Mensaje de VentaController
-          } else if (error.response.data.message) {
-            errorMessage = error.response.data.message;
-          } else {
-            errorMessage = "Faltan datos o hay un problema con el inventario.";
-          }
-          errorIcon = "warning"; // Usamos 'warning' para falta de stock
-
+        errorTitle = "Stock Insuficiente";
+        // El error vendrá en 'message' o 'errors.stock'
+        if (error.response.data.errors?.stock) {
+          errorMessage = error.response.data.errors.stock[0]; // Mensaje de VentaController
+        } else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        } else {
+          errorMessage = "Faltan datos o hay un problema con el inventario.";
+        }
+        errorIcon = "warning"; // Usamos 'warning' para falta de stock
       } else if (error.response?.status === 500) {
         errorMessage = "Error en el servidor. Revisa los logs de Laravel.";
       } else if (error.response?.status === 404) {
-        errorMessage = "Ruta no encontrada. Verifica tu archivo routes/api.php.";
+        errorMessage =
+          "Ruta no encontrada. Verifica tu archivo routes/api.php.";
       }
-      
+
       Swal.fire({
         icon: errorIcon,
         title: errorTitle,
@@ -190,21 +193,24 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
       });
     }
   }
+  const pizzasDisponibles = computed(() =>
+    menu.value.pizzas.filter((p) => p.disponible)
+  );
 
   const obtenerMenu = async () => {
     try {
       const response = await apiClient.get("/get-menu");
-      
-      menu.value.pizzas = response.data.productos.Pizza || [];
-      menu.value.bebidas = response.data.productos.Refresco || [];
-      
+
+      menu.value.pizzas = response.data.Pizza || [];
+      menu.value.bebidas = response.data.Refresco || [];
+
       menu.value.pizzas.forEach((pizza) => {
         pizza.precio = parseFloat(pizza.precio);
       });
       menu.value.bebidas.forEach((bebida) => {
         bebida.precio = parseFloat(bebida.precio);
       });
-      
+
       console.log("Menú cargado:", menu.value);
     } catch (error) {
       console.error("Error al obtener el menú:", error);
@@ -232,5 +238,6 @@ export const usePuntoDeVentaStore = defineStore("PuntoDeVenta", () => {
     realizarVenta,
     obtenerMenu,
     confirmarVenta,
+    pizzasDisponibles,
   };
 });

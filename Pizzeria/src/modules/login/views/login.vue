@@ -42,7 +42,6 @@
         </div>
 
         <button
-          @click="submit"
           type="submit"
           class="w-full bg-blue-500 text-white py-3 rounded-full hover:bg-blue-600 transition-colors duration-300"
         >

@@ -59,7 +59,8 @@ const routes = [
       {
         path: "/reporte-compras",
         name: "reporte-compras",
-        component: () => import("../modules/admin/Reporte_Pro/views/reporte_de_productos.vue"),
+        component: () =>
+          import("../modules/admin/Reporte_Pro/views/reporte_de_productos.vue"),
       },
       {
         path: "/pedidos",
@@ -74,7 +75,14 @@ const routes = [
       {
         path: "/dashboard-ventas",
         name: "dashboard-ventas",
-        component: () => import("../modules/admin/dashboard/views/vista_de_ventas.vue"),
+        component: () =>
+          import("../modules/admin/dashboard/views/vista_de_ventas.vue"),
+      },
+      {
+        path: "/dashboard-ventas-total",
+        name: "dashboard-ventas-total",
+        component: () =>
+          import("../modules/admin/dashboard/views/dashboardVentas.vue"),
       },
     ],
   },

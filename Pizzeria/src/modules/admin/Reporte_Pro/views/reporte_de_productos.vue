@@ -30,7 +30,6 @@
           <thead class="border-b-2 border-gray-700">
             <tr>
               <th class="p-4 text-lg text-gray-300">Producto</th>
-              <th class="p-4 text-lg text-gray-300">Proveedor</th>
               <th class="p-4 text-lg text-gray-300 text-center">Cantidad</th>
               <th class="p-4 text-lg text-gray-300 text-right">
                 Precio Unitario
@@ -41,7 +40,9 @@
 
           <tbody>
             <tr v-if="comprasConTotal.length === 0 && !cargando">
-                <td colspan="5" class="p-4 text-center text-gray-500">No hay compras registradas hoy.</td>
+              <td colspan="5" class="p-4 text-center text-gray-500">
+                No hay compras registradas hoy.
+              </td>
             </tr>
 
             <tr
@@ -50,7 +51,6 @@
               class="border-b border-gray-700 hover:bg-gray-700"
             >
               <td class="p-4 font-semibold text-lg">{{ compra.producto }}</td>
-              <td class="p-4 text-gray-300">{{ compra.proveedor }}</td>
               <td class="p-4 text-center">
                 {{ compra.cantidad }} {{ compra.unidad }}
               </td>
@@ -80,19 +80,18 @@
 </template>
 
 <script setup>
-
-import { onMounted } from 'vue'; 
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useReporteComprasStore } from "../store/reporte_compras.js";
 import printJS from "print-js";
 
 const reporteStore = useReporteComprasStore();
 
-
-const { fechaReporte, comprasConTotal, granTotalCompras, cargando } = storeToRefs(reporteStore);
+const { fechaReporte, comprasConTotal, granTotalCompras, cargando } =
+  storeToRefs(reporteStore);
 
 onMounted(() => {
-    reporteStore.cargarComprasDesdeBD();
+  reporteStore.cargarComprasDesdeBD();
 });
 
 const usuario = "user";

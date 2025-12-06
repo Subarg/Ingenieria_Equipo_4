@@ -26,7 +26,7 @@ export const useLoginStore = defineStore("login", () => {
     { rol: "Administrador", ruta: "admin" },
     { rol: "Cajero", ruta: "pos" },
     { rol: "Chef", ruta: "pedidos" },
-    { rol: "Almacenista", ruta: "admin" },
+    { rol: "Almacenista", ruta: "almacen" },
   ];
 
   async function submit() {

@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="modalTurno"
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    class="fixed inset-0 flex justify-center items-center z-50"
     @click.self="cerrarModalTurno"
   >
     <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
@@ -45,7 +45,7 @@
               :key="caja.id_caja"
               :value="caja.id_caja"
             >
-              {{ caja.nombre_caja }}
+              Caja #{{ caja.numero }}
             </option>
           </select>
         </div>

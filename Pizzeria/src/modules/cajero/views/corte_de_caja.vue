@@ -14,9 +14,13 @@
       <h1 class="text-3xl font-bold text-center mb-8">Corte de Caja</h1>
 
       <!-- Advertencia si no hay turno activo -->
-      <div v-if="!cajeroStore.turnoActivo" class="bg-red-900 p-4 rounded-lg mb-6">
+      <div
+        v-if="!cajeroStore.turnoActivo"
+        class="bg-red-900 p-4 rounded-lg mb-6"
+      >
         <p class="text-center text-lg">
-          ⚠️ No hay un turno activo. Por favor, inicia un turno antes de realizar el corte.
+          ⚠️ No hay un turno activo. Por favor, inicia un turno antes de
+          realizar el corte.
         </p>
       </div>
 
@@ -110,11 +114,28 @@
           Resumen del Turno
         </h2>
 
+        <div class="flex justify-between text-lg">
+          <span class="text-gray-400">Ventas en Efectivo:</span>
+          <span class="font-semibold">${{ ventas.efectivo.toFixed(2) }}</span>
+        </div>
+
+        <div class="flex justify-between text-lg">
+          <span class="text-gray-400">Ventas con Tarjeta:</span>
+          <span class="font-semibold">${{ ventas.tarjeta.toFixed(2) }}</span>
+        </div>
+
+        <div class="flex justify-between text-lg">
+          <span class="text-gray-400">Transferencias:</span>
+          <span class="font-semibold"
+            >${{ ventas.transferencia.toFixed(2) }}</span
+          >
+        </div>
+
         <div
           class="flex justify-between text-xl font-bold py-3 border-b border-gray-600"
         >
           <span class="text-white">Ventas Totales:</span>
-          <span>${{ ventasTotales.toFixed(2) }}</span>
+          <span>${{ ventas.total.toFixed(2) }}</span>
         </div>
 
         <div class="pt-6 space-y-4">
@@ -148,7 +169,7 @@
         </div>
 
         <button
-          @click="nuevoCorteLocal"
+          @click="nuevoCorteLocal(cajeroStore.turno.fondoIncial)"
           class="w-full mt-8 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 rounded-lg text-lg transition-colors"
         >
           Finalizar Turno y Nuevo Corte
@@ -165,20 +186,31 @@ import { useCajeroStore } from "../store/cajero.js";
 import { onMounted, ref, computed } from "vue";
 import router from "../../../Router/index.js";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
+import axios from "axios";
 const corteStore = useCorteCajaStore();
 const cajeroStore = useCajeroStore();
 
 const fecha = ref("");
-const nombreCajero = ref("Usuario"); // Puedes obtenerlo de localStorage o del backend
+const nombreCajero = ref(""); // Puedes obtenerlo de localStorage o del backend
 
+async function getNombre() {
+  let id_user = localStorage.getItem("user_id");
+  const response = await axios.post("/get-nombre-usuario", { id_user });
+  nombreCajero.value =
+    response.data.nombre_usuario.nombre +
+    " " +
+    response.data.nombre_usuario.apellido_paterno +
+    " " +
+    response.data.nombre_usuario.apellido_materno;
+}
 onMounted(() => {
+  getNombre();
   const hoy = new Date();
   const year = hoy.getFullYear();
   const month = String(hoy.getMonth() + 1).padStart(2, "0");
   const day = String(hoy.getDate()).padStart(2, "0");
   fecha.value = `${year}-${month}-${day}`;
-  
+  corteStore.obtenerVentasDelTurno();
   // Cargar nombre de usuario si está disponible
   const userName = localStorage.getItem("user_name");
   if (userName) {
@@ -189,9 +221,7 @@ onMounted(() => {
 const {
   efectivoEnCaja,
   corteRealizado,
-  ventasEnEfectivo,
-  ventasConTarjeta,
-  ventasTotales,
+  ventas,
   dineroEsperadoEnCaja,
   diferencia,
 } = storeToRefs(corteStore);
@@ -205,10 +235,10 @@ function realizarCorteLocal() {
   corteStore.realizarCorte();
 }
 
-function nuevoCorteLocal() {
-  corteStore.nuevoCorte();
-  // También finalizamos el turno del cajero
-  cajeroStore.finalizarTurno();
+function nuevoCorteLocal(fondoFinal) {
+  if (corteStore.nuevoCorte()) {
+    cajeroStore.finalizarTurno(fondoFinal);
+  }
   router.push({ name: "pos" });
 }
 
